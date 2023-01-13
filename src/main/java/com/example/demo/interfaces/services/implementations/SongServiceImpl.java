@@ -48,6 +48,18 @@ public class SongServiceImpl implements SongService {
 
     @Override
     public Map<String, Object> deleteById(String id) {
+        responseMap = new HashMap<>();
+        Song getSong = songRepository.findBySongId(id);
+        if(getSong.getDeletedAt() != null || getSong == null){
+            responseMap.put("responseCode", 404);
+            responseMap.put("responseMessage", "Song not found");
+        }else{
+            getSong.setDeletedAt(new Timestamp(System.currentTimeMillis()));
+            Song updatedSong = songRepository.save(getSong);
+            responseMap.put("responseCode", 200);
+            responseMap.put("responseMessage", "Delete song success");
+            responseMap.put("song", updatedSong);
+        }
         return null;
     }
 
@@ -103,7 +115,7 @@ public class SongServiceImpl implements SongService {
             getSong.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
             Song updatedSong = songRepository.save(getSong);
             responseMap.put("responseCode", 200);
-            responseMap.put("responseMessage", "Get song");
+            responseMap.put("responseMessage", "Update song success");
             responseMap.put("song", updatedSong);
         }
         return responseMap;

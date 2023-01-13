@@ -20,11 +20,11 @@ public class IdGeneratorUtil {
 
     @Bean
     public String generateArtistId(){
-        return "ART" + generateId(23);
+        return String.join("ART", generateId(23));
     }
 
     @Bean
     public String generateSongId(){
-        return "SNG" + generateId(23);
+        return String.join("SNG", generateId(23));
     }
 }

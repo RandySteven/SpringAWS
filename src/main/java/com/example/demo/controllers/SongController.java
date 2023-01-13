@@ -68,6 +68,12 @@ public class SongController implements SongAction {
     @PutMapping(PUT_SONG_BY_ID_ENDPOINT)
     public ResponseEntity<Map<String, Object>> putSongById(String songId, Song song) {
         LOGGER.info("============= Put Song =============");
+        responseMap = songService.updateById(songId, song);
+        if(responseMap.get("responseCode").equals(404)){
+            responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }else{
+            responseEntity = ResponseEntity.ok(responseMap);
+        }
         return responseEntity;
     }
 
@@ -75,6 +81,12 @@ public class SongController implements SongAction {
     @DeleteMapping(DELETE_SONG_BY_ID_ENDPOINT)
     public ResponseEntity<Map<String, Object>> deleteSongById(String songId) {
         LOGGER.info("============= Delete Song =============");
+        responseMap = songService.deleteById(songId);
+        if(responseMap.get("responseCode").equals(404)){
+            responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseMap);
+        }else{
+            responseEntity = ResponseEntity.ok(responseMap);
+        }
         return responseEntity;
     }
 }
